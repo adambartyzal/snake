@@ -1,18 +1,25 @@
-CC = gcc
-CFLAGS += -pedantic -Wall -std=c99 -g -O0
-DEPS = types.h
-OBJ = main.o field.o snake.o
-TARGET = snake
-ZIP=zip
 
-%.o: %.c $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
+#CC:=ccache $(CC)
+CFLAGS+=-O2
 
-$(TARGET): $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS)
+OBJS=$(patsubst %.c,%.o,$(wildcard *.c))
+
+CFLAGS+=-std=c99 -pedantic -Wall
+
+CFLAGS+=$(shell sdl2-config --cflags)
+LDFLAGS+=$(shell sdl2-config --libs)
+
+TARGET=snake
+
+bin: $(TARGET)
+
+$(OBJS): %.o: %.c
+	$(CC) -c $< $(CFLAGS) -o $@
+
+$(TARGET): $(OBJS)
+	$(CC) $(OBJS) $(LDFLAGS) -o $@
 
 clean:
-	$(RM) *.o
-	$(RM) $(TARGET)
+	$(RM) $(OBJS) $(TARGET)
+	$(RM) -rf *.ppm *.jpg
 
-.PHONY: clean

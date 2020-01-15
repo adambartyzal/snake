@@ -13,7 +13,7 @@ void clearField (field_t *f){
 void displayField (field_t *f) {
   for (int y = 0; y < f->height; y++) {
     for (int x = 0; x < f->width; x++) {
-      printf("%d ", f->field[f->width * x + y]);
+      printf("%d ", f->field[(f->height -1) * y + x]);
     }
     putchar('\n');
   }

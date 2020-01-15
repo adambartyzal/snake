@@ -18,4 +18,7 @@ void moveSnake (snake_t *s, field_t *f);
 // Put new dot in field in random place
 void placeFood (snake_t *s, field_t *f);
 
+// Turn snake if possible
+void changeDirection (snake_t *s, direction_t dir);
+
 #endif

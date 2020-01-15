@@ -23,7 +23,7 @@ bool enlargeSnake (snake_t * s) {
 void placeSnake (snake_t *s, field_t *f) {
   dot_t *tmp = s->head;
   for (int i = 0; i < s->size; i++) {
-    f->field[f->width * tmp->pos->x + tmp->pos->y] = 1;
+    f->field[(f->height -1) * tmp->pos->y + tmp->pos->x] = 1;
     tmp = tmp->next;
   }
 }
@@ -42,19 +42,47 @@ void moveSnake (snake_t *s, field_t *f) {
   switch (s->dir)
   {
   case up:
-    if (s->head->pos->y-- == -1) s->head->pos->y = f->height;
+    if (s->head->pos->y-- <= 0) s->head->pos->y = f->height-1;
     break;
 
   case down:
-    if (s->head->pos->y++ == f->height + 1) s->head->pos->y = 0;
+    if (s->head->pos->y++ >= f->height) s->head->pos->y = 0;
     break;
 
   case left:
-    if (s->head->pos->x-- == -1) s->head->pos->x = f->width;
+    if (s->head->pos->x-- <= 0) s->head->pos->x = f->width-1;
     break;
 
   case right:
-    if (s->head->pos->x++ == f->width + 1) s->head->pos->x = 0;
+    if (s->head->pos->x++ >= f->width) s->head->pos->x = 0;
+    break;
+  
+
+  default:
+    printf ("Direction Error!");
+    break;
+  } 
+  //printf("%d,%d\n",s->head->pos->x,s->head->pos->y);
+}
+
+void changeDirection (snake_t *s, direction_t dir) {
+  
+  switch (dir)
+  {
+  case up:
+    if (s->dir != down) s->dir = dir;
+    break;
+
+  case down:
+    if (s->dir != up) s->dir = dir;
+    break;
+
+  case left:
+    if (s->dir != right) s->dir = dir;
+    break;
+
+  case right:
+    if (s->dir != left) s->dir = dir;
     break;
   
   default:

@@ -35,4 +35,11 @@ typedef struct{
   direction_t dir;
 }snake_t; 
 
+typedef struct {
+  int width,
+      height;
+  char *name;
+  unsigned char *data;  
+}image_t;
+
 #endif

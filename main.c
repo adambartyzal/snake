@@ -6,7 +6,7 @@
 
 int main()
 {
-  int fieldSize = 9;
+  int fieldSize = 7;
   field_t field;
   field.height = fieldSize;
   field.width = fieldSize;
@@ -41,24 +41,16 @@ int main()
   snake.tail = tail;
   snake.size = 2;
   snake.dir = initDir;
-
-  for (int i = 0; i < 4; i++) {
-    clearField(&field);
-    placeSnake(&snake,&field);
-    displayField(&field);
-    moveSnake(&snake,&field);
-    enlargeSnake(&snake);
-  }
-
-    snake.dir = right;
-
-  for (int i = 0; i < 4; i++) {
-    clearField(&field);
-    placeSnake(&snake,&field);
-    displayField(&field);
-    moveSnake(&snake,&field);
-  }
   
+  enlargeSnake(&snake);
+
+  for (int i = 0; i < 8; i++) {
+    clearField(&field);
+    placeSnake(&snake,&field);
+    displayField(&field);
+    moveSnake(&snake,&field);
+  } 
+
 
   return(0);
 }
