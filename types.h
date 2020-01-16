@@ -4,7 +4,7 @@
 typedef struct {
   int width, 
       height;
-  int *field;
+  int **field;
 }field_t;
 
 typedef struct {

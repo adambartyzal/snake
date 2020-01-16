@@ -13,10 +13,10 @@ bool enlargeSnake (snake_t *s);
 void placeSnake (snake_t *s, field_t *f);
 
 // Moving in direction
-void moveSnake (snake_t *s, field_t *f);
+void moveSnake (snake_t *s, field_t *f); // field here only for sizes
 
 // Put new dot in field in random place
-void placeFood (snake_t *s, field_t *f);
+void placeFood (snake_t *s, field_t *f); // undefiend yet
 
 // Turn snake if possible
 void changeDirection (snake_t *s, direction_t dir);

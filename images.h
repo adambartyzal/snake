@@ -11,7 +11,10 @@
 image_t *initImage(image_t *img, int width, int height, char *name);
 
 //fills image data
-bool generateImage(image_t *img);
+bool generateImage(image_t *img, field_t *f);
+
+//opens xwindows and shows the image; flase if fail
+void initWindow(image_t *img);
 
 //opens xwindows and shows the image; flase if fail
 void showImage(image_t *img);

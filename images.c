@@ -21,17 +21,27 @@ image_t *initImage(image_t *img, int width, int height, char *name) {
   return img;
 }
 
-bool generateImage(image_t * img) {
-  int ptr = 0;
+bool generateImage(image_t *img, field_t *f) {
+  int ptr = 0,
+      fieldPosX = 0,
+      fieldPosY = 0, 
+      condition = 0;
   unsigned char one = 255, zero = 0;
-  for(int x = 0; x < img->height; x++) {
-    for(int y = 0; y < img->width; y++) {
-      img->data[ptr] = (y < img->width / 3) ? one : zero;      
-      img->data[ptr+1] = (y > img->width / 3 && y < 2 * img->width / 3) ? one : zero;
-      img->data[ptr+2] = (y > 2 * img->width / 3 && y < img->width) ? one : zero;
+
+  // more vars for better readibility
+  for(int y = 0; y < img->height; y++) {
+    for(int x = 0; x < img->width; x++) {
+      fieldPosY = y / (img->height / (f->height-1));
+      fieldPosX = x / (img->width / f->width-1); 
+      //printf("%d,%d ",fieldPosY,fieldPosX);
+      condition = f->field[fieldPosY][fieldPosX]; // Snake or not
+      img->data[ptr] = condition ? one : zero; // R
+      img->data[ptr+1] = condition ? one : zero; // G
+      img->data[ptr+2] = !condition ? one : zero; // B
       ptr += 3;
     }
   }
+
   return true;
 }
 
@@ -39,8 +49,7 @@ bool saveImage(image_t *img) {
   FILE *f = fopen(img->name,"w");
   if (f == NULL) return false;
   fprintf(f, "P6\n %s\n %d\n %d\n %d\n", img->name, img->width, img->height, MAX_COLOR_VALUE);
-  for (int i = 0; i < (3*img->width * img->height); i++)
-  {
+  for (int i = 0; i < (3*img->width * img->height); i++) {
     fwrite(img->data+i,sizeof(char),1,f);
   }  
   fclose(f);
@@ -51,7 +60,6 @@ bool loadImage(image_t *img) {
 
   FILE *f = fopen(img->name,"r");
   if (f == NULL) return false;
-
   char tmp;
 
   for (int i = 0; i < 29; i++) {
@@ -77,10 +85,13 @@ void freeImage(image_t *img) {
   free(img);
 }
 
-void showImage(image_t *img){
+void initWindow(image_t *img){
   xwin_init(img->width, img->height); /*open window*/
+}
+
+void showImage(image_t *img){
   xwin_redraw(img->width, img->height, img->data); /* draw the image to the window */
-  delay(1000);
+  delay(200);
 }
 
 void saveJpeg(image_t *img){

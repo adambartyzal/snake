@@ -23,7 +23,7 @@ bool enlargeSnake (snake_t * s) {
 void placeSnake (snake_t *s, field_t *f) {
   dot_t *tmp = s->head;
   for (int i = 0; i < s->size; i++) {
-    f->field[(f->height -1) * tmp->pos->y + tmp->pos->x] = 1;
+    f->field[tmp->pos->y][tmp->pos->x] = 1;
     tmp = tmp->next;
   }
 }
