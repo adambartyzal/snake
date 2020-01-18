@@ -3,7 +3,9 @@
 void placeSnake (snake_t *snk, field_t *fld) {
   dot_t *tmp = snk->head;
   for (int i = 0; i < snk->size; i++) {
-    fld->field[tmp->pos->y][tmp->pos->x] = 1;
+    for (int c = 0; c < 3; c++) {  
+      fld->field[tmp->pos->y][tmp->pos->x][c] = 0XFF;
+    }
     tmp = tmp->next;
   }
 }
@@ -98,7 +100,7 @@ void changeDirection (snake_t *snk, direction_t dir) {
 }
 
 void placeFood (food_t *fd, field_t *fld) {
-  fld->field[fd->pos->y][fd->pos->x] = 2;
+  fld->field[fd->pos->y][fd->pos->x][0] = 0xFF;
 }
 
 void moveFood (food_t *fd, field_t *fld) {

@@ -24,20 +24,15 @@ image_t *initImage(image_t *img, int width, int height, char *name) {
 bool generateImage(image_t *img, field_t *f) {
   int ptr = 0,
       fieldPosX = 0,
-      fieldPosY = 0, 
-      condition = 0;
-  unsigned char one = 255, zero = 0;
-
-  // more vars for better readibility
+      fieldPosY = 0;
   for(int y = 0; y < img->height; y++) {
     for(int x = 0; x < img->width; x++) {
       fieldPosY = y / ( (double) img->height / (double) (f->height));
-      fieldPosX = x / ((double) img->width / (double) (f->width)); 
-      condition = f->field[fieldPosY][fieldPosX]; // Snake or not
-      img->data[ptr] = condition ? one : zero; // R
-      img->data[ptr+1] = condition ? one : zero; // G
-      img->data[ptr+2] = condition ? one : zero; // B
-      ptr += 3;
+      fieldPosX = x / ((double) img->width / (double) (f->width));
+      for (int c = 0; c < 3 ; c++) {
+        img->data[ptr] = (unsigned char) f->field[fieldPosY][fieldPosX][c];  
+        ptr++;
+      }
     }
   }
 
