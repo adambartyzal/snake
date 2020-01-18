@@ -1,6 +1,53 @@
 #include "snake.h"
 
-bool enlargeSnake (snake_t * s) {
+void placeSnake (snake_t *snk, field_t *fld) {
+  dot_t *tmp = snk->head;
+  for (int i = 0; i < snk->size; i++) {
+    fld->field[tmp->pos->y][tmp->pos->x] = 1;
+    tmp = tmp->next;
+  }
+}
+
+void moveSnake (snake_t *snk, field_t *fld) {
+
+  // bubble douwn positions
+  dot_t *tmp = snk->tail;
+  for (int i = 0; i < snk->size - 1; i++) {
+    tmp->pos->x = tmp->prev->pos->x;
+    tmp->pos->y = tmp->prev->pos->y;
+    tmp = tmp->prev;
+  }
+
+  // new head pos
+  switch (snk->dir)
+  {
+  case up:
+    if (snk->head->pos->y-- <= 0) 
+      snk->head->pos->y = fld->height-1;
+    break;
+
+  case down:
+    if (snk->head->pos->y++ >= fld->height-1) 
+      snk->head->pos->y = 0;
+    break;
+
+  case left:
+    if (snk->head->pos->x-- <= 0) 
+      snk->head->pos->x = fld->width-1;
+    break;
+
+  case right:
+    if (snk->head->pos->x++ >= fld->width-1) 
+      snk->head->pos->x = 0;
+    break;
+
+  default:
+    printf ("Direction Error!");
+    break;
+  } 
+}
+
+bool enlargeSnake (snake_t * snk) {
   dot_t* dot = malloc(sizeof (dot_t));
   if (dot == NULL) {
     return false;
@@ -9,84 +56,67 @@ bool enlargeSnake (snake_t * s) {
   if (new == NULL) {
     return false;
   }
-  s->size++;
+  snk->size++;
   dot->pos = new;
   dot->pos->x = 0;
   dot->pos->y = 0;
   dot->next = NULL;
-  dot->prev = s->tail;
-  s->tail->next = dot;
-  s->tail = dot;
+  dot->prev = snk->tail;
+  snk->tail->next = dot;
+  snk->tail = dot;
   return true;
 }
 
-void placeSnake (snake_t *s, field_t *f) {
-  dot_t *tmp = s->head;
-  for (int i = 0; i < s->size; i++) {
-    f->field[tmp->pos->y][tmp->pos->x] = 1;
-    tmp = tmp->next;
-  }
-}
-
-void moveSnake (snake_t *s, field_t *f) {
-
-  // bubble douwn positions
-  dot_t *tmp = s->tail;
-  for (int i = 0; i < s->size - 1; i++) {
-    tmp->pos->x = tmp->prev->pos->x;
-    tmp->pos->y = tmp->prev->pos->y;
-    tmp = tmp->prev;
-  }
-
-  // new head pos
-  switch (s->dir)
-  {
-  case up:
-    if (s->head->pos->y-- <= 0) s->head->pos->y = f->height-1;
-    break;
-
-  case down:
-    if (s->head->pos->y++ >= f->height) s->head->pos->y = 0;
-    break;
-
-  case left:
-    if (s->head->pos->x-- <= 0) s->head->pos->x = f->width-1;
-    break;
-
-  case right:
-    if (s->head->pos->x++ >= f->width) s->head->pos->x = 0;
-    break;
-  
-
-  default:
-    printf ("Direction Error!");
-    break;
-  } 
-  //printf("%d,%d\n",s->head->pos->x,s->head->pos->y);
-}
-
-void changeDirection (snake_t *s, direction_t dir) {
+void changeDirection (snake_t *snk, direction_t dir) {
   
   switch (dir)
   {
   case up:
-    if (s->dir != down) s->dir = dir;
+    if (snk->dir != down) 
+      snk->dir = dir;
     break;
 
   case down:
-    if (s->dir != up) s->dir = dir;
+    if (snk->dir != up) 
+      snk->dir = dir;
     break;
 
   case left:
-    if (s->dir != right) s->dir = dir;
+    if (snk->dir != right) 
+      snk->dir = dir;
     break;
 
   case right:
-    if (s->dir != left) s->dir = dir;
+    if (snk->dir != left) 
+      snk->dir = dir;
     break;
   
   default:
     printf ("Direction Error!");
     break;
   } 
+}
+
+void placeFood (food_t *fd, field_t *fld) {
+  fld->field[fd->pos->y][fd->pos->x] = 2;
+}
+
+void moveFood (food_t *fd, field_t *fld) {
+  fd->pos->x = fld->width * (double) rand() / (double) RAND_MAX;
+  fd->pos->y = fld->width * (double) rand() / (double) RAND_MAX;
+}
+
+bool eating(snake_t *snk, food_t *fd) {
+  return (snk->head->pos->x == fd->pos->x && snk->head->pos->y == fd->pos->y) ? true : false;
+}
+
+bool crash(snake_t *snk) {
+    dot_t *tmp = snk->tail;
+  for (int i = 0; i < snk->size - 1; i++) {
+    if (snk->head->pos->x == tmp->pos->x && snk->head->pos->y == tmp->pos->y) {
+      return true;
+    }
+    tmp = tmp->prev;
+  }
+  return false;
 }

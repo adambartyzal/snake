@@ -31,13 +31,12 @@ bool generateImage(image_t *img, field_t *f) {
   // more vars for better readibility
   for(int y = 0; y < img->height; y++) {
     for(int x = 0; x < img->width; x++) {
-      fieldPosY = y / (img->height / (f->height-1));
-      fieldPosX = x / (img->width / f->width-1); 
-      //printf("%d,%d ",fieldPosY,fieldPosX);
+      fieldPosY = y / ( (double) img->height / (double) (f->height));
+      fieldPosX = x / ((double) img->width / (double) (f->width)); 
       condition = f->field[fieldPosY][fieldPosX]; // Snake or not
       img->data[ptr] = condition ? one : zero; // R
       img->data[ptr+1] = condition ? one : zero; // G
-      img->data[ptr+2] = !condition ? one : zero; // B
+      img->data[ptr+2] = condition ? one : zero; // B
       ptr += 3;
     }
   }
@@ -91,7 +90,7 @@ void initWindow(image_t *img){
 
 void showImage(image_t *img){
   xwin_redraw(img->width, img->height, img->data); /* draw the image to the window */
-  delay(200);
+  delay(100);
 }
 
 void saveJpeg(image_t *img){

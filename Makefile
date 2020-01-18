@@ -1,13 +1,15 @@
 
 #CC:=ccache $(CC)
-CFLAGS+=-O2
+CFLAGS+=-O0
 
 OBJS=$(patsubst %.c,%.o,$(wildcard *.c))
 
-CFLAGS+=-std=c99 -pedantic -Wall
+CFLAGS+=-std=c99 -pedantic -Wall -g
 
 CFLAGS+=$(shell sdl2-config --cflags)
 LDFLAGS+=$(shell sdl2-config --libs)
+
+LDFLAGS += -lcurses
 
 TARGET=snake
 

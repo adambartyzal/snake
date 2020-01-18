@@ -6,19 +6,28 @@
 #include <stdbool.h>
 #include "types.h"
 
-// Returns false if something fails
-bool enlargeSnake (snake_t *s);
-
 // Place snake on the field. Goes through snake from tail to head.
-void placeSnake (snake_t *s, field_t *f);
+void placeSnake (snake_t *, field_t *);
 
 // Moving in direction
-void moveSnake (snake_t *s, field_t *f); // field here only for sizes
+void moveSnake (snake_t *, field_t *); // field here only for sizes
 
-// Put new dot in field in random place
-void placeFood (snake_t *s, field_t *f); // undefiend yet
+// Returns false if something fails
+bool enlargeSnake (snake_t *);
 
 // Turn snake if possible
-void changeDirection (snake_t *s, direction_t dir);
+void changeDirection (snake_t *, direction_t);
+
+// Put dot of food to field
+void placeFood (food_t *, field_t *);
+
+// New rand coordinates for food
+void moveFood (food_t *, field_t *);
+
+// checking if head of snake is in the same pos as food;
+bool eating(snake_t *, food_t *);
+
+// checking if head of snake is in the same pos as the body of the snake;
+bool crash(snake_t *);
 
 #endif
