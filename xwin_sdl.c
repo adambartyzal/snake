@@ -17,9 +17,9 @@ int xwin_init(int w, int h)
    int r;
    r = SDL_Init(SDL_INIT_VIDEO);
    //assert(win == NULL);
-   win = SDL_CreateWindow("prp-exam", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, w, h, SDL_WINDOW_SHOWN);
+   win = SDL_CreateWindow("snake", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, w, h, SDL_WINDOW_SHOWN);
    //assert(win != NULL);
-   SDL_SetWindowTitle(win, "PRP-EXAM");   
+   SDL_SetWindowTitle(win, "SNAKE");   
    return r;
 }
 

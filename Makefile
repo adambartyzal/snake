@@ -23,5 +23,5 @@ $(TARGET): $(OBJS)
 
 clean:
 	$(RM) $(OBJS) $(TARGET)
-	$(RM) -rf *.ppm *.jpg
+	$(RM) -rf *.ppm *.jpg *.img
 

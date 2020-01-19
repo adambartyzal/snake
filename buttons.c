@@ -23,6 +23,9 @@ void getButton (direction_t *d, control_t *control) {
         case SDLK_e:
           control->exit = true;
           break;
+        case SDLK_ESCAPE:
+          control->exit = true;
+          break;
         case SDLK_p:
           control->picture = true;
           break;

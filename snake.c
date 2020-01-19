@@ -1,5 +1,35 @@
 #include "snake.h"
 
+void initSnake (snake_t * snake, field_t *field) {
+  position_t *headPos = malloc(sizeof(position_t));
+  headPos->x = field->width / 2;
+  headPos->y = field->height / 2;
+
+  position_t *tailPos = malloc(sizeof(position_t));
+  tailPos->x = field->width / 2;
+  tailPos->y = field->height / 2;
+  tailPos->y++;
+
+  dot_t *head = malloc(sizeof(dot_t));
+  head->prev = NULL;
+  head->pos = headPos;
+
+  dot_t *tail = malloc(sizeof(dot_t));
+  tail->pos = tailPos;
+  tail->prev = head;
+  tail->next = NULL;
+
+  head->next = tail;
+
+  direction_t *dir = malloc(sizeof(direction_t));
+  *dir = right;
+
+  snake->head = head;
+  snake->tail = tail;
+  snake->size = 2;
+  snake->dir = *dir;
+}
+
 void placeSnake (snake_t *snk, field_t *fld) {
   dot_t *tmp = snk->head;
   for (int i = 0; i < snk->size; i++) {
@@ -69,6 +99,16 @@ bool enlargeSnake (snake_t * snk) {
   return true;
 }
 
+void freeSnake(snake_t *snk) {
+  dot_t *tmp = snk->tail;
+  for (int i = 0; i < snk->size-1; i++) {
+    snk->tail = tmp->prev;
+    free(tmp->pos);
+    free(tmp);
+  }
+  free(snk);
+}
+
 void changeDirection (snake_t *snk, direction_t *dir) {
   
   direction_t tmp = *dir;
@@ -106,8 +146,14 @@ void placeFood (food_t *fd, field_t *fld) {
 }
 
 void moveFood (food_t *fd, field_t *fld) {
+  srand(time(NULL));
   fd->pos->x = fld->width * (double) rand() / (double) RAND_MAX;
   fd->pos->y = fld->width * (double) rand() / (double) RAND_MAX;
+}
+
+void freeFood(food_t *food) {
+  free(food->pos);
+  free(food);
 }
 
 bool eating(snake_t *snk, food_t *fd) {

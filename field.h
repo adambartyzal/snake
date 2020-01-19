@@ -6,7 +6,7 @@
 #include "types.h"
 
 // allocates memory for field struct
-void allocField (field_t *);
+void initField (field_t *, int);
 
 // set all values in filed in field struct to 0
 void clearField (field_t *);

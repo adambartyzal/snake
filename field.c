@@ -1,6 +1,8 @@
 #include "field.h"
 
-void allocField (field_t *field) {
+void initField (field_t *field, int fieldSize) {
+  field->width = fieldSize;
+  field->height = fieldSize;
   field->field = malloc(field->height * sizeof(int**));
   for (int y = 0; y < field->width; y++) {
     field->field[y] = malloc(field->height * sizeof(int*));
@@ -31,5 +33,12 @@ void clearField (field_t *field){
 //}
 
 void freeField (field_t *field) {
+  for (int y = 0; y < field->width; y++) {
+    for (int x = 0; x < field->width ; x++) {
+      free(field->field[y][x]);
+    }
+    free(field->field[y]);
+  }
+  free(field->field);
   free(field);
 }
