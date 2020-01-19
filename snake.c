@@ -69,28 +69,30 @@ bool enlargeSnake (snake_t * snk) {
   return true;
 }
 
-void changeDirection (snake_t *snk, direction_t dir) {
+void changeDirection (snake_t *snk, direction_t *dir) {
   
-  switch (dir)
+  direction_t tmp = *dir;
+
+  switch (tmp)
   {
   case up:
     if (snk->dir != down) 
-      snk->dir = dir;
+      snk->dir = tmp;
     break;
 
   case down:
     if (snk->dir != up) 
-      snk->dir = dir;
+      snk->dir = tmp;
     break;
 
   case left:
     if (snk->dir != right) 
-      snk->dir = dir;
+      snk->dir = tmp;
     break;
 
   case right:
     if (snk->dir != left) 
-      snk->dir = dir;
+      snk->dir = tmp;
     break;
   
   default:

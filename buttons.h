@@ -6,7 +6,6 @@
 
 SDL_Event event;
 
-void getDirection (direction_t *);
-void getControls (void);
+void getButton (direction_t *,control_t *);
 
 #endif

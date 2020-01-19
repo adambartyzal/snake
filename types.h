@@ -1,10 +1,17 @@
 #ifndef TYPES_H
 #define TYPES_H
 
+#include <stdbool.h>
+
+typedef struct {
+  bool exit,
+       picture;
+}control_t;
+
 typedef struct {
   int width, 
       height;
-  int ***field;
+  int ***field; // adress as field[y][x][c] where y = height, x = width, c = color in format [0] = R(0-255),[1] G(0-255),[2] = B(0-255)
 }field_t;
 
 typedef struct {

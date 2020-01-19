@@ -7,6 +7,8 @@
 #include "xwin_sdl.h"
 #include "types.h"
 
+#define MAX_COLOR_VALUE 255
+
 // allocs dynamic structs name and data and fills image struct with called paramateres
 image_t *initImage(image_t *img, int width, int height, char *name);
 

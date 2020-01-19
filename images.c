@@ -1,5 +1,4 @@
 #include "images.h"
-#define MAX_COLOR_VALUE 255
 
 image_t *initImage(image_t *img, int width, int height, char *name) {
   img->name = name;
@@ -27,7 +26,7 @@ bool generateImage(image_t *img, field_t *f) {
       fieldPosY = 0;
   for(int y = 0; y < img->height; y++) {
     for(int x = 0; x < img->width; x++) {
-      fieldPosY = y / ( (double) img->height / (double) (f->height));
+      fieldPosY = y / ((double) img->height / (double) (f->height));
       fieldPosX = x / ((double) img->width / (double) (f->width));
       for (int c = 0; c < 3 ; c++) {
         img->data[ptr] = (unsigned char) f->field[fieldPosY][fieldPosX][c];  
@@ -42,8 +41,8 @@ bool generateImage(image_t *img, field_t *f) {
 bool saveImage(image_t *img) {
   FILE *f = fopen(img->name,"w");
   if (f == NULL) return false;
-  fprintf(f, "P6\n %s\n %d\n %d\n %d\n", img->name, img->width, img->height, MAX_COLOR_VALUE);
-  for (int i = 0; i < (3*img->width * img->height); i++) {
+  fprintf(f, "P6\n#%s\n%d %d\n%d\n", img->name, img->width, img->height, MAX_COLOR_VALUE);
+  for (int i = 0; i < (img->width * img->height * 3); i++) {
     fwrite(img->data+i,sizeof(char),1,f);
   }  
   fclose(f);

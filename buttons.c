@@ -1,6 +1,6 @@
 #include "buttons.h"
 
-void getDirection (direction_t *d) {
+void getButton (direction_t *d, control_t *control) {
 
   while( SDL_PollEvent( &event ) ){
     switch( event.type ){
@@ -19,6 +19,12 @@ void getDirection (direction_t *d) {
           break;
         case SDLK_DOWN:
           *d = down;
+          break;
+        case SDLK_e:
+          control->exit = true;
+          break;
+        case SDLK_p:
+          control->picture = true;
           break;
         default:
           break;

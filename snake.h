@@ -16,7 +16,7 @@ void moveSnake (snake_t *, field_t *); // field here only for sizes
 bool enlargeSnake (snake_t *);
 
 // Turn snake if possible
-void changeDirection (snake_t *, direction_t);
+void changeDirection (snake_t *, direction_t *);
 
 // Put dot of food to field
 void placeFood (food_t *, field_t *);
