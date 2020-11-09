@@ -1,7 +1,8 @@
-# snake
+# Snake
 Classic snake game written in C. 
-
-Usage:
+## Compilation
+Compile the game using included makefile.
+## Usage:
 ```
 ./snake [size of field]
 ```
